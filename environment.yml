@@ -1,0 +1,8 @@
+name: eecs-440-project
+dependencies:
+  - python=3
+  - pytest
+  - numpy
+  - scipy
+  - networkx=2
+  - matplotlib
