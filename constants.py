@@ -11,7 +11,8 @@ graph_dict = {
     "path": nx.path_graph,
     "cycle": nx.cycle_graph,
     "hyper_cube": nx.hypercube_graph,
-    "random_binomial": nx.gnp_random_graph
+    "random_binomial": nx.gnp_random_graph,
+    "wheel": nx.wheel_graph
 }
 #
 # Construct layout dict
