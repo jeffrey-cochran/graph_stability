@@ -1,7 +1,12 @@
 from numpy.random import randint
 from collections import namedtuple
+from os.path import exists, join
+from os import makedirs
+from constants import data_dir, COMPLETE
+from os.path import join
+from os import remove
 import csv
-
+import errno
 
 subplot_indices = namedtuple("subplot_indices", ["grid_size", "graph", "matrix", "spectrum"])
 
@@ -90,5 +95,31 @@ def dump_two_d_data(file_name, data):
         writer = csv.writer(f, delimiter=",")
         for row in data:
             writer.writerow(row)
+    #
+    return
+
+
+def get_data_dir(graph_family, graph_name, perturbation_type):
+    #
+    # Search for dir
+    parent_dir = join(data_dir, graph_family)
+    desired_parent_dir = join(parent_dir, perturbation_type)
+    if not exists(desired_parent_dir):
+        makedirs(desired_parent_dir)
+    #
+    desired_dir = join(desired_parent_dir, graph_name)
+    if not exists(desired_dir):
+        makedirs(desired_dir)
+    #
+    return desired_dir
+
+
+def remove_file(file_name):
+    #
+    try:
+        remove(file_name)
+    except OSError as e:
+        if e.errno != errno.ENOENT:
+            raise e
     #
     return
