@@ -89,3 +89,18 @@ def get_wheel_graph(num_spokes=None):
         args=[num_spokes],
         name=name,
     )
+
+
+#
+# Construct graph wrapper dictionary
+# for easy graph generation
+graph_wrapper_dict = {
+    "complete": get_complete_graph,
+    "complete_bipartite": get_complete_bipartite_graph,
+    "star": get_star_graph,
+    "path": get_path_graph,
+    "cycle": get_cycle_graph,
+    "hyper_cube": get_hyper_cube_graph,
+    "random_binomial": get_random_binomial_graph,
+    "wheel": get_wheel_graph
+}
