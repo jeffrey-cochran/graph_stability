@@ -44,3 +44,12 @@ FRUCHTERMAN = "fruchterman"
 # to data dir for easy read/write
 root_dir = dirname(abspath(__file__))
 data_dir = join(root_dir, "data")
+#
+# Perturbed Data Keys
+BULK_INDICES = "bulk_indices"
+NORMALIZED_EIGENCENTRALITIES = "normalized_eigencentralities"
+SPECTRA = "spectra"
+REDUCED_SPECTRAL_SIMILARITY = "rss"
+IRRECONCILABLE_SPECTRAL_DIFFERENCE = "isd"
+TOTAL_SPECTRAL_SIMILARITY = "tss"
+
