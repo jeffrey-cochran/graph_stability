@@ -22,7 +22,7 @@ if __name__ == "__main__":
     import warnings
     warnings.filterwarnings("ignore")
     #
-    # Define paramts
+    # Define params
     perturbation_types = [NODE, EDGE]
     nodes_list = [
         5, 10, 20, 50, 100

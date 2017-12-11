@@ -22,7 +22,7 @@ if __name__ == "__main__":
     import warnings
     warnings.filterwarnings("ignore")
     #
-    # Define paramts
+    # Define params
     perturbation_types = [NODE, EDGE]
     cube_degree_list = [
         2, 3, 4, 5, 6, 7
