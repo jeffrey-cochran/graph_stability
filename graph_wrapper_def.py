@@ -180,9 +180,9 @@ class graph_wrapper(object):
         #
         # Irreconcilable Spectral Dissimilarity
         # num_perturbed_eigenvalues = perturbed_spectrum.shape[0]
-        lost_data = target_spectrum[bulk_index:]
+        remaining_data = self.target_spectrum[:bulk_index]
         #
-        return norm(lost_data) / self.target_spectrum_norm
+        return 1 - (norm(remaining_data) / self.target_spectrum_norm)
 
     def get_matrix(self, graph_choice=TARGET, matrix=LAPLACIAN):
         #
@@ -198,7 +198,13 @@ class graph_wrapper(object):
     def get_normalized_eigencentrality(self, graph_choice=TARGET):
         #
         G = self.return_valid_graph_choice(graph_choice)
-        e = asarray(list(nx.eigenvector_centrality_numpy(G).values()))
+        #
+        if G.number_of_edges() < 2:
+            centralities = [0.5, 0.5]
+        else:
+            centralities = nx.eigenvector_centrality_numpy(G).values()
+        #
+        e = asarray(list(centralities))
         #
         return e / sum(e)
 
