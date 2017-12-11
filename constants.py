@@ -40,6 +40,16 @@ SPRING = "spring"
 KAWADA = "kawada"
 FRUCHTERMAN = "fruchterman"
 #
+# Graph specifications
+COMPLETE = "complete"
+COMPLETE_BIPARTITE = "complete_bipartite"
+STAR = "star"
+PATH = "path"
+CYCLE = "cycle"
+HYPER_CUBE = "hyper_cube"
+RANDOM_BINOMIAL = "random_binomial"
+WHEEL = "wheel"
+#
 # Create relative absolute path
 # to data dir for easy read/write
 root_dir = dirname(abspath(__file__))
