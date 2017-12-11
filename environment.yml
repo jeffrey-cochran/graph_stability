@@ -4,5 +4,8 @@ dependencies:
   - pytest
   - numpy
   - scipy
-  - networkx=2
   - matplotlib
+  - pip
+  - pip:
+  	- networkx>=2.0
+  
