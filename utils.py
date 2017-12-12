@@ -35,10 +35,10 @@ def get_subplot_indices(include_graph=None,
                         include_spectrum=None):
     #
     if include_graph and include_matrix and include_spectrum:
-        grid_size = (2, 2)
-        graph_index = ((0, 0), 2)
-        matrix_index = ((1, 1), 1)
-        spectrum_index = ((1, 0), 1)
+        grid_size = (2, 4)
+        graph_index = ((0, 1), 2)
+        matrix_index = ((1, 2), 2)
+        spectrum_index = ((1, 0), 2)
     elif include_graph and include_matrix:
         grid_size = (2, 1)
         graph_index = ((0, 0), 1)
