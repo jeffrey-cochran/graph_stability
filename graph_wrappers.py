@@ -1,6 +1,6 @@
 from graph_wrapper_def import graph_wrapper
 from constants import COMPLETE, COMPLETE_BIPARTITE, WHEEL, RANDOM_BINOMIAL,\
-    HYPER_CUBE, CYCLE, PATH, STAR
+    HYPER_CUBE, CYCLE, PATH, STAR, SPRING, NODE, EDGE, PERTURBED, KAWADA
 
 
 def get_complete_graph(num_nodes=None):
@@ -120,3 +120,7 @@ graph_wrapper_dict = {
     "random_binomial": get_random_binomial_graph,
     "wheel": get_wheel_graph
 }
+
+g = get_wheel_graph(10)
+g.set_layout(KAWADA)
+g.visualize(include_matrix=True, include_spectrum=True, include_graph=True)
