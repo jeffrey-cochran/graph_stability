@@ -121,6 +121,8 @@ graph_wrapper_dict = {
     "wheel": get_wheel_graph
 }
 
-g = get_wheel_graph(10)
-g.set_layout(KAWADA)
-g.visualize(include_matrix=True, include_spectrum=True, include_graph=True)
+# g = get_wheel_graph(100)
+# g.set_layout(KAWADA)
+# g.visualize(include_matrix=True, include_spectrum=True, include_graph=True)
+# g.perturbed_graph.remove_node(0)
+# g.visualize(graph_choice=PERTURBED, include_matrix=True, include_spectrum=True, include_graph=True)

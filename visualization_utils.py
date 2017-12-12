@@ -16,6 +16,7 @@ import numpy as np
 
 experimental_data = namedtuple("experimental_data", ["experiment_name", "expected_fractional_axis", "rss", "isd", "tss"])
 
+
 def load_experiment(graph_family=None, perturbation_type=None, **kwargs):
         '''
         Different graph families take different optional kwargs:
@@ -63,6 +64,7 @@ def load_experiment(graph_family=None, perturbation_type=None, **kwargs):
             tss=tss_data
         )
 
+
 def get_max_number_columns(file_name):
     #
     max_cols = 0
@@ -75,6 +77,7 @@ def get_max_number_columns(file_name):
         #
     #
     return max_cols
+
 
 def compare_experiments(graph_families=None, perturbation_type=None, measure=None, keyword_args=None, ax=None):
     #
@@ -99,7 +102,7 @@ def compare_experiments(graph_families=None, perturbation_type=None, measure=Non
         ax.plot(x, y, color=colorVal, label=exp_name)
     #
     # Set conditional titles
-    perturbed_obj = 'nodes' if perturbation_type == NODE else 'edges'
+    perturbed_obj = 'Nodes' if perturbation_type == NODE else 'Edges'
     x_label = f'Fraction of Perturbed {perturbed_obj}'
     y_label = f'E[{measure.upper()}]'
     ax.set_xlabel(x_label)
@@ -245,7 +248,7 @@ def compare_to_uncertainty(
     #
     return
 
-# display_all_uncertainty(graph_family=COMPLETE, perturbation_type=NODE, keyword_args={"num_nodes": 5})
+
 # 
 # g1 = get_complete_bipartite_graph(num_nodes_C1=5, num_nodes_C2=100)
 # g2 = get_complete_bipartite_graph(num_nodes_C1=10, num_nodes_C2=100)
@@ -272,14 +275,33 @@ def compare_to_uncertainty(
 
 # compare_all_metrics(
 #     graph_families=[
-#         COMPLETE,
+#         WHEEL,
+#         WHEEL,
+#         WHEEL,
+#         WHEEL,
+#         WHEEL,
 #     ],
-#     perturbation_type=NODE,
+#     perturbation_type=EDGE,
 #     keyword_args=[
-#         {"num_nodes": 5},
+#         {"num_spokes": 5},
+#         {"num_spokes": 10},
+#         {"num_spokes": 20},
+#         {"num_spokes": 50},
+#         {"num_spokes": 100},
 #     ]
 # )
-# visualize_kl_divergence(graph_family=COMPLETE, perturbation_type=NODE, measure=TOTAL_SPECTRAL_SIMILARITY, keyword_args={"num_nodes": 5}, deviations=2)
+# display_all_uncertainty(
+#     graph_family=WHEEL,
+#     perturbation_type=EDGE,
+#     keyword_args={"num_spokes": 100}
+# )
+visualize_kl_divergence(
+    graph_family=COMPLETE,
+    perturbation_type=NODE,
+    measure=TOTAL_SPECTRAL_SIMILARITY,
+    keyword_args={"num_nodes": 100},
+    deviations=2
+)
 plt.show()
 # n = 100
 # 
