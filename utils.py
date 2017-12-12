@@ -2,14 +2,12 @@ from numpy.random import randint
 from collections import namedtuple
 from os.path import exists, join
 from os import makedirs
-from constants import data_dir, COMPLETE
-from os.path import join
+from constants import data_dir
 from os import remove
 import csv
 import errno
 
 subplot_indices = namedtuple("subplot_indices", ["grid_size", "graph", "matrix", "spectrum"])
-
 
 def write_rand_seeds(n, low=0, high=10000000, file_name="seeds.csv"):
     #

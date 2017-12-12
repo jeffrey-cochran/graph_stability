@@ -6,6 +6,7 @@ dependencies:
   - scipy
   - matplotlib
   - pip
+  - pandas
   - pip:
     - networkx>=2.0
   

@@ -20,15 +20,25 @@ class graph_wrapper(object):
                  kwargs={},
                  layout=KAWADA,
                  name="G",
+                 expected_nodes=None,
+                 expected_edges=None,
                  ):
         #
         # Create graph data structure
         self.graph = graph_dict[graph_family](*args, **kwargs)
         self.name = name
+        self.expected_nodes = expected_nodes
+        self.expected_edges = expected_edges
         #
         # Relabel to guarantee integer labels
         mapping = dict(zip(self.graph.nodes(), list(range(len(self.graph.nodes())))))
         self.graph = nx.relabel_nodes(self.graph, mapping)
+        #
+        # Remove isolated nodes
+        nodes_for_iteration = list(self.graph.nodes())
+        for n in nodes_for_iteration:
+            if nx.degree(self.graph, n) == 0:
+                self.graph.remove_node(n)
         #
         # Set default layout
         self.set_layout(layout)

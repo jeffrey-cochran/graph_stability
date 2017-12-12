@@ -11,6 +11,8 @@ def get_complete_graph(num_nodes=None):
         graph_family=COMPLETE,
         args=[num_nodes],
         name=name,
+        expected_nodes=num_nodes,
+        expected_edges=(num_nodes * (num_nodes - 1) / 2),
     )
 
 
@@ -22,6 +24,8 @@ def get_complete_bipartite_graph(num_nodes_C1=None, num_nodes_C2=None):
         graph_family=COMPLETE_BIPARTITE,
         args=[num_nodes_C1, num_nodes_C2],
         name=name,
+        expected_nodes=(num_nodes_C1 + num_nodes_C2),
+        expected_edges=(num_nodes_C1 * num_nodes_C2),
     )
 
 
@@ -33,6 +37,8 @@ def get_star_graph(num_leaves=None):
         graph_family=STAR,
         args=[num_leaves],
         name=name,
+        expected_nodes=(num_leaves + 1),
+        expected_edges=num_leaves,
     )
 
 
@@ -44,6 +50,8 @@ def get_path_graph(num_nodes=None):
         graph_family=PATH,
         args=[num_nodes],
         name=name,
+        expected_nodes=num_nodes,
+        expected_edges=(num_nodes - 1),
     )
 
 
@@ -55,6 +63,8 @@ def get_cycle_graph(num_nodes=None):
         graph_family=CYCLE,
         args=[num_nodes],
         name=name,
+        expected_nodes=num_nodes,
+        expected_edges=num_nodes,
     )
 
 
@@ -66,6 +76,8 @@ def get_hyper_cube_graph(cube_degree=None):
         graph_family=HYPER_CUBE,
         args=[cube_degree],
         name=name,
+        expected_nodes=(2**cube_degree),
+        expected_edges=(cube_degree * (2**(cube_degree - 1))),
     )
 
 
@@ -77,6 +89,8 @@ def get_random_binomial_graph(num_nodes=None, edge_prob=None):
         graph_family=RANDOM_BINOMIAL,
         args=[num_nodes, edge_prob],
         name=name,
+        expected_nodes=(num_nodes - num_nodes * ((1 - edge_prob)**(num_nodes - 1))),
+        expected_edges=(edge_prob * (num_nodes * (num_nodes - 1) / 2)),
     )
 
 
@@ -88,6 +102,8 @@ def get_wheel_graph(num_spokes=None):
         graph_family=WHEEL,
         args=[num_spokes],
         name=name,
+        expected_nodes=num_spokes,
+        expected_edges=(2 * (num_spokes - 1)),
     )
 
 

@@ -20,7 +20,7 @@ if __name__ == "__main__":
     # Define paramts
     perturbation_types = [NODE, EDGE]
     nodes_list = [
-        5, 10, 20, 50, 100
+        20, 50, 100
     ]
     prob_list = [
         0.05, 0.10, 0.25, 0.5, 0.75, 0.90, 0.95

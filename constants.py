@@ -1,5 +1,6 @@
 import networkx as nx
 from os.path import dirname, join, abspath
+from matplotlib import pyplot as plt
 
 #
 # Construct graph family dict
@@ -62,4 +63,10 @@ SPECTRA = "spectra"
 REDUCED_SPECTRAL_SIMILARITY = "rss"
 IRRECONCILABLE_SPECTRAL_DIFFERENCE = "isd"
 TOTAL_SPECTRAL_SIMILARITY = "tss"
-
+#
+# Color maps for different metrics
+metric_color_maps = {
+    REDUCED_SPECTRAL_SIMILARITY: plt.get_cmap('PuBu'),
+    IRRECONCILABLE_SPECTRAL_DIFFERENCE: plt.get_cmap('YlGn'),
+    TOTAL_SPECTRAL_SIMILARITY: plt.get_cmap('YlOrRd')    
+}
