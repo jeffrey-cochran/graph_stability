@@ -1,9 +1,10 @@
-from graph_wrappers import graph_wrapper_dict
+from graph_wrappers import graph_wrapper_dict, get_complete_bipartite_graph
 from utils import get_data_dir
 from os.path import join
 from constants import EDGE, COMPLETE, STAR, NODE, CYCLE, PATH, WHEEL, HYPER_CUBE,\
     RANDOM_BINOMIAL, REDUCED_SPECTRAL_SIMILARITY, TOTAL_SPECTRAL_SIMILARITY,\
-    metric_color_maps, IRRECONCILABLE_SPECTRAL_DIFFERENCE, COMPLETE_BIPARTITE
+    metric_color_maps, IRRECONCILABLE_SPECTRAL_DIFFERENCE, COMPLETE_BIPARTITE,\
+    misc_color_maps, TARGET
 from numpy import mean, var, linspace, asarray, std
 from collections import namedtuple
 import pandas as pd
@@ -107,6 +108,7 @@ def compare_experiments(graph_families=None, perturbation_type=None, measure=Non
     ax.legend()
     return
 
+
 def compare_all_metrics(graph_families=None, perturbation_type=None, keyword_args=None):
     f, (ax1, ax2, ax3) = plt.subplots(1, 3)
     compare_experiments(
@@ -132,14 +134,41 @@ def compare_all_metrics(graph_families=None, perturbation_type=None, keyword_arg
     )
     return
 
+
+def display_centrality(graph_family=None, keyword_args=None, ax=None):
+    #
+    if ax is None:
+        ax = plt.gca()
+    #
+    # Get graph wrapper
+    graph_generator = graph_wrapper_dict[graph_family]
+    graph_wrapper = graph_generator(**keyword_args)
+    eigencentrality = graph_wrapper.get_normalized_eigencentrality()
+    #
+    # Generate indices
+    eigencentrality_indices = list(range(1, len(eigencentrality) + 1))
+    #
+    # Make stem plots
+    (markerline, stemlines, baseline) = ax.stem(eigencentrality_indices, eigencentrality, 'm', markerfmt='mo')
+    plt.setp(baseline, visible=False)
+    step_size = max([1, int(len(eigencentrality_indices) / float(20))])
+    ax.set_xlabel("Node Number")
+    ax.set_ylabel("Normalized Eigencentrality")
+    plt.xticks(eigencentrality_indices[::step_size], rotation=45)
+    kl_divergence = graph_wrapper.get_KL_divergence_from_uniformity(graph_choice=TARGET)
+    ax.set_title(f"Distribution of Normalized Eigencentralities in {graph_wrapper.name},\nUniform KL-Divergence = {kl_divergence:1.2e}")
+    #
+    return
+
+
 def display_uncertainty(graph_family=None, perturbation_type=None, measure=None, keyword_args=None, ax=None, deviations=2):
     #
     if ax is None:
         ax = plt.gca()
     #
     # Set color scheme for graph
-    cm = metric_color_maps[measure] 
-    cNorm  = colors.Normalize(vmin=-1, vmax=3)
+    cm = metric_color_maps[measure]
+    cNorm = colors.Normalize(vmin=-1, vmax=3)
     scalarMap = cmx.ScalarMappable(norm=cNorm, cmap=cm)
     #
     # Plot the mean
@@ -162,7 +191,7 @@ def display_uncertainty(graph_family=None, perturbation_type=None, measure=None,
     ax.plot(x, y_minus, color=colorValMinus, label=f'{exp_name} (-{deviations} std.)', linestyle='--')
     #
     # Set conditional titles
-    perturbed_obj = 'nodes' if perturbation_type == NODE else 'edges'
+    perturbed_obj = 'Nodes' if perturbation_type == NODE else 'Edges'
     x_label = f'Fraction of Perturbed {perturbed_obj}'
     y_label = f'E[{measure.upper()}]'
     ax.set_xlabel(x_label)
@@ -170,7 +199,8 @@ def display_uncertainty(graph_family=None, perturbation_type=None, measure=None,
     ax.set_title(f'{measure.upper()} vs. {x_label}')
     ax.legend()
     return
-        
+
+
 def display_all_uncertainty(graph_family=None, perturbation_type=None, keyword_args=None, deviations=2):
     #
     f, (ax1, ax2, ax3) = plt.subplots(1, 3)
@@ -180,6 +210,16 @@ def display_all_uncertainty(graph_family=None, perturbation_type=None, keyword_a
     #
     return
 
+
+def visualize_kl_divergence(graph_family=None, perturbation_type=None, measure=None, keyword_args=None, deviations=2):
+    #
+    f, (ax1, ax2) = plt.subplots(1, 2)
+    display_centrality(graph_family=graph_family, keyword_args=keyword_args, ax=ax1)
+    display_uncertainty(graph_family=graph_family, perturbation_type=perturbation_type, measure=measure, keyword_args=keyword_args, ax=ax2, deviations=deviations)
+    #
+    return
+
+
 def compare_to_uncertainty(
         graph_family_certain=None,
         graph_family_uncertain=None,
@@ -188,8 +228,7 @@ def compare_to_uncertainty(
         keyword_args_certain=None,
         keyword_args_uncertain=None,
         ax=None,
-        deviations=2
-    ):
+        deviations=2):
     #
     if ax is None:
         ax = plt.gca()
@@ -206,7 +245,18 @@ def compare_to_uncertainty(
     #
     return
 
-display_all_uncertainty(graph_family=COMPLETE_BIPARTITE, perturbation_type=NODE, keyword_args={"num_nodes_C1": 50, "num_nodes_C2":50})
+# display_all_uncertainty(graph_family=COMPLETE, perturbation_type=NODE, keyword_args={"num_nodes": 5})
+# 
+# g1 = get_complete_bipartite_graph(num_nodes_C1=5, num_nodes_C2=100)
+# g2 = get_complete_bipartite_graph(num_nodes_C1=10, num_nodes_C2=100)
+# g3 = get_complete_bipartite_graph(num_nodes_C1=20, num_nodes_C2=100)
+# g4 = get_complete_bipartite_graph(num_nodes_C1=50, num_nodes_C2=100)
+# g5 = get_complete_bipartite_graph(num_nodes_C1=100, num_nodes_C2=100)
+# 
+# print(g1.get_KL_divergence_from_uniformity() / g2.get_KL_divergence_from_uniformity())
+# print(g1.get_KL_divergence_from_uniformity() / g3.get_KL_divergence_from_uniformity())
+# print(g1.get_KL_divergence_from_uniformity() / g4.get_KL_divergence_from_uniformity())
+# print(g1.get_KL_divergence_from_uniformity() / g5.get_KL_divergence_from_uniformity())
 
 # compare_to_uncertainty(
 #         graph_family_certain=COMPLETE,
@@ -222,23 +272,14 @@ display_all_uncertainty(graph_family=COMPLETE_BIPARTITE, perturbation_type=NODE,
 
 # compare_all_metrics(
 #     graph_families=[
-#         HYPER_CUBE,
-#         HYPER_CUBE,
-#         HYPER_CUBE,
-#         HYPER_CUBE,
-#         HYPER_CUBE,
-#         HYPER_CUBE
+#         COMPLETE,
 #     ],
 #     perturbation_type=NODE,
 #     keyword_args=[
-#         {"cube_degree": 2},
-#         {"cube_degree": 3},
-#         {"cube_degree": 4},
-#         {"cube_degree": 5},
-#         {"cube_degree": 6},
-#         {"cube_degree": 7},
+#         {"num_nodes": 5},
 #     ]
-# )   
+# )
+# visualize_kl_divergence(graph_family=COMPLETE, perturbation_type=NODE, measure=TOTAL_SPECTRAL_SIMILARITY, keyword_args={"num_nodes": 5}, deviations=2)
 plt.show()
 # n = 100
 # 
