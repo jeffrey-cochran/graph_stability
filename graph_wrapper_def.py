@@ -194,6 +194,13 @@ class graph_wrapper(object):
         #
         return 1 - (norm(remaining_data) / self.target_spectrum_norm)
 
+    def get_KL_divergence_from_uniformity(self, graph_choice=TARGET):
+        #
+        normalized_eigencentrality = self.get_normalized_eigencentrality(graph_choice=graph_choice)
+        kl_div = self.calc_KL_divergence_from_uniformity(normalized_eigencentrality)
+        #
+        return kl_div
+
     def get_matrix(self, graph_choice=TARGET, matrix=LAPLACIAN):
         #
         graph = self.return_valid_graph_choice(graph_choice)
@@ -366,7 +373,7 @@ class graph_wrapper(object):
             #
             # Overlay transparent, colored layer
             nx.draw_networkx_edges(graph_to_visualize, pos=self.pos, width=edge_width, alpha=edge_alpha, edge_color=edge_color)
-            nx.draw_networkx_nodes(graph_to_visualize, pos=self.pos, node_color=edge_color, node_size=node_size, alpha=node_alpha)
+            nx.draw_networkx_nodes(graph_to_visualize, pos=self.pos, node_color=node_color, node_size=node_size, alpha=node_alpha)
             plt.axis('off')
             plt.title("%s%s" % (graph_title_prefix, self.name))
         #
@@ -380,7 +387,7 @@ class graph_wrapper(object):
             plt.imshow(matrix, interpolation='nearest', cmap=plt.get_cmap('BuPu'), aspect='auto')
             plt.clim(vmin=self.min_cmap_val, vmax=self.max_cmap_val)
             plt.colorbar()
-            plt.title("Laplacian of %s%s" % (graph_title_prefix, self.name))
+            plt.title("Laplacian")
         #
         # Plot spectrum
         if include_spectrum:
@@ -395,8 +402,9 @@ class graph_wrapper(object):
             # Make stem plots
             (markerline, stemlines, baseline) = plt.stem(spectrum_indices, spectrum, spectrum_color, markerfmt=spectrum_color + 'o')
             plt.setp(baseline, visible=False)
-            plt.xticks(spectrum_indices, rotation=45)
-            plt.title("Spectrum of Eigenvalues for %s%s" % (graph_title_prefix, self.name))
+            step_size = max(1, int(len(spectrum_indices) / 10.0))
+            plt.xticks(spectrum_indices[::step_size], rotation=45)
+            plt.title("Spectrum of Eigenvalues")
         #
         plt.show()
         #

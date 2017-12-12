@@ -68,5 +68,9 @@ TOTAL_SPECTRAL_SIMILARITY = "tss"
 metric_color_maps = {
     REDUCED_SPECTRAL_SIMILARITY: plt.get_cmap('PuBu'),
     IRRECONCILABLE_SPECTRAL_DIFFERENCE: plt.get_cmap('YlGn'),
-    TOTAL_SPECTRAL_SIMILARITY: plt.get_cmap('YlOrRd')    
+    TOTAL_SPECTRAL_SIMILARITY: plt.get_cmap('YlOrRd')
+}
+
+misc_color_maps = {
+    "YlGnBu": plt.get_cmap('YlGnBu')
 }
