@@ -296,7 +296,7 @@ def compare_to_uncertainty(
 #     keyword_args={"num_spokes": 100}
 # )
 visualize_kl_divergence(
-    graph_family=COMPLETE,
+    graph_family=CYCLE,
     perturbation_type=NODE,
     measure=TOTAL_SPECTRAL_SIMILARITY,
     keyword_args={"num_nodes": 100},
